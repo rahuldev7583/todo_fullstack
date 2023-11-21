@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import AddTask from "./AddTask";
 import { API_ENDPOINTS } from "../../config";
 import Bottom from "./Bottom/Bottom";
+import Loading from "./Loading";
 const Signup = () => {
   const navigate = useNavigate();
 
@@ -15,9 +16,11 @@ const Signup = () => {
   const dataSend = { state: { name: signupData.name, status: "Signup" } };
 
   const [signup, setSignup] = useState({ signupStatus: true, data: "" });
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
     const response = await fetch(API_ENDPOINTS.SIGNUP, {
       method: "POST",
       headers: {
@@ -31,6 +34,7 @@ const Signup = () => {
       setSignup({ data: data, signupStatus: false });
     } else {
       localStorage.setItem("token", data.token);
+      setLoading(false);
       setSignup({ ...signup, signupStatus: true });
       navigate("/verify", dataSend);
     }
@@ -53,6 +57,7 @@ const Signup = () => {
           ***Please enter a valid email***
         </h1>
       ) : null}
+      {loading && <Loading />}
       <form
         className={
           signup.signupStatus

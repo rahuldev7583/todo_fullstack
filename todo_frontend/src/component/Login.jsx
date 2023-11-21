@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AddTask from "./AddTask";
 import { API_ENDPOINTS } from "../../config";
 import Bottom from "./Bottom/Bottom";
+import Loading from "./Loading";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -14,10 +15,11 @@ export const Login = () => {
   });
   const [login, setLogin] = useState(true);
   const [verify, setVerify] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
-
+    setLoading(true);
     const response = await fetch(API_ENDPOINTS.LOGIN, {
       method: "POST",
       headers: {
@@ -41,7 +43,7 @@ export const Login = () => {
       setLoginData({ email: "", password: "" });
     } else {
       localStorage.setItem("token", data.token);
-
+      setLoading(false);
       setLogin(true);
 
       navigate("/task", dataSend);
@@ -73,6 +75,7 @@ export const Login = () => {
           ***Verify your email***
         </h1>
       )}
+      {loading && <Loading />}
       <form
         className="mt-6 mb-8 w-[80%] md:w-[25%] text-base md:text-xl ml-16 md:ml-[42%]"
         onSubmit={handleSubmit}
