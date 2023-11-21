@@ -36,9 +36,11 @@ export const Login = () => {
       if (data.error[0] === "V") {
         setVerify(false);
         setLogin(true);
+        setLoading(false);
       } else if (data.error[0] === "L") {
         setLogin(false);
         setVerify(true);
+        setLoading(false);
       }
       setLoginData({ email: "", password: "" });
     } else {

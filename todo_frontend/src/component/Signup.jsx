@@ -32,6 +32,7 @@ const Signup = () => {
     if (!response.ok) {
       setSignupData({ name: "", email: "", password: "" });
       setSignup({ data: data, signupStatus: false });
+      setLoading(false);
     } else {
       localStorage.setItem("token", data.token);
       setLoading(false);
