@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import AddTask from "./AddTask";
 import { useEffect, useState } from "react";
 import { LogOut, Success, Button } from "./others";
@@ -19,6 +19,7 @@ if (day < 10) {
 const currentDate = `${year}-${months}-${day}`;
 
 export const Task = () => {
+  const navigate = useNavigate();
   const [taskData, setTaskData] = useState({
     title: "",
     description: "",
@@ -38,7 +39,9 @@ export const Task = () => {
     const { name, value } = e.target;
     setTaskData({ ...taskData, [name]: value });
   }
+
   const authToken = localStorage.getItem("token");
+
   async function getUser() {
     const response = await fetch(API_ENDPOINTS.GET_USERNAME, {
       method: "GET",
@@ -67,6 +70,7 @@ export const Task = () => {
       console.log(response);
     } else {
       setTasks(() => data);
+      console.log(data);
       setLoadTask(true);
     }
   }

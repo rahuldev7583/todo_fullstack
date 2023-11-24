@@ -5,10 +5,10 @@ import { API_ENDPOINTS } from "../../config";
 import Bottom from "./Bottom/Bottom";
 import Loading from "./Loading";
 
-export const Login = () => {
+export const Login = ({ setLoadTask }) => {
   const navigate = useNavigate();
 
-  const dataSend = { state: { name: null, status: "Login" } };
+  const dataSend = { state: { name: "", status: "Login" } };
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -47,7 +47,7 @@ export const Login = () => {
       localStorage.setItem("token", data.token);
       setLoading(false);
       setLogin(true);
-
+      setLoadTask(true);
       navigate("/task", dataSend);
     }
   }

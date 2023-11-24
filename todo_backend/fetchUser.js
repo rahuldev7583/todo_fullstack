@@ -6,7 +6,6 @@ const fetchuser = (req, res, next) => {
   if (!token) {
     res.status(401).send({ error: "Authentication failed" });
   }
-
   try {
     const data = jwt.verify(token, process.env.SECRET_KEY);
     req.user = data.user;
