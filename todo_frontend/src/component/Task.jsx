@@ -160,10 +160,10 @@ export const Task = () => {
   useEffect(() => {
     fetchTask();
     fetchCompletedTask();
-    if (dataRec.name != null) {
+    if (dataRec.name != "") {
       setUsername(dataRec.name);
       setSuccess(false);
-    } else if (dataRec.name === null) {
+    } else if (dataRec.name === "") {
       getUser();
       setSuccess(false);
     }

@@ -16,6 +16,7 @@ function App() {
     <div className="font-mono  h-screen">
       <BrowserRouter>
         <Header />
+
         <Routes>
           <Route path="/" element={<Login setLoadTask={updateLoadTask} />} />
           <Route path="/signup" element={<Signup />} />
