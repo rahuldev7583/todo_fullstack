@@ -10,7 +10,8 @@ This is a full-stack Todo application built using Vite, React, Tailwind CSS for 
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
 - [Folder Structure](#folder-structure)
-- [API Endpoints](#api-endpoints) -[Configuration](#configuration)
+- [API Endpoints](#api-endpoints)
+- [Configuration](#configuration)
 - [Dependencies](#dependencies)
 - [License](#license)
 
@@ -95,6 +96,7 @@ Visit http://localhost:5173 in your browser to use the Todo application
 ## Folder Structure
 
     ├── todo_fullstack_app/
+    
       │ ├── todo_frontend/
 
        │ │ ├── public/
@@ -115,8 +117,7 @@ Visit http://localhost:5173 in your browser to use the Todo application
 
         │ │ └── ...
 
-    │ ├── todo_backend/
-
+      │ ├── todo_backend/
 
         │ │ ├── models/
 
@@ -155,6 +156,7 @@ Visit http://localhost:5173 in your browser to use the Todo application
   - POST /api/tasks/addtask: Create a new task.
   - PUT /api/tasks/taskcomplete/:id: Update a task.
   - DELETE /api/tasks/deletetask/:id: Delete a task
+
 
 ## Configuration
 
