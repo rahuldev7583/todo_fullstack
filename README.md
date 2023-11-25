@@ -1,6 +1,6 @@
 # Todo Full Stack App
 
-This is a full-stack Todo application built using Vite, React, Tailwind CSS for the frontend, and Node.js, Express, and MongoDB for the backend.
+This is a full-stack Todo application built using Vite, React, Tailwind CSS for the frontend and Node.js, Express, and MongoDB for the backend.
 
 <img src="./todo_frontend/src/assets/checklist.png" alt="logo" width="150" height="150" >
 
@@ -16,10 +16,10 @@ This is a full-stack Todo application built using Vite, React, Tailwind CSS for 
 
 ## Features
 
-- User Authentication: Secure user authentication system.
+- User Authentication: Secure user authentication system by sending verification link to email.
 - CRUD Operations: Create, read, update, and delete tasks.
 - Responsive Design: The frontend is built to be responsive and usable on various devices.
-- Modern Stack: Utilizes Vite, React, Tailwind CSS for the frontend, and Node.js, - Express, MongoDB for the backend.
+- Modern Stack: Utilizes Vite, React, Tailwind CSS for the frontend, and Node.js, Express, MongoDB for the backend.
 
 ## Prerequisites
 
@@ -94,11 +94,10 @@ Visit http://localhost:5173 in your browser to use the Todo application
 
 ## Folder Structure
 
-├── todo_fullstack_app/
+    ├── todo_fullstack_app/
+      │ ├── todo_frontend/
 
-    │ ├── todo_frontend/
-
-        │ │ ├── public/
+       │ │ ├── public/
 
         │ │ ├── src/
 
@@ -133,7 +132,7 @@ Visit http://localhost:5173 in your browser to use the Todo application
 
         │ │ └── ...
 
-│ └── README.md
+    │ └── README.md
 
 ## API Endpoints
 
@@ -183,4 +182,4 @@ Visit http://localhost:5173 in your browser to use the Todo application
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT](https://choosealicense.com/licenses/mit/)
