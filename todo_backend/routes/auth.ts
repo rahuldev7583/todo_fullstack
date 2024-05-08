@@ -1,28 +1,32 @@
-const express = require("express");
-const User = require("./../models/User");
-const { body, validationResult } = require("express-validator");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import express, { Request, Response } from "express";
+import { body, validationResult } from "express-validator";
+import bcrypt from "bcrypt";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import nodemailer from "nodemailer";
+import User from "../models/User";
+import fetchuser, { AuthenticatedRequest } from "../fetchUser";
+
 const router = express.Router();
-const fetchuser = require("../fetchUser");
-const { ObjectId } = require("mongodb");
-const nodemailer = require("nodemailer");
 
-router.get("/username/", fetchuser, async (req, res) => {
-  try {
-    const id = req.user.userId;
-    const user = await User.findOne({ _id: id });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+router.get(
+  "/username/",
+  fetchuser,
+  async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const id = req.user?.userId;
+      const user = await User.findOne({ _id: id });
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.json(user.name);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal error occurred");
     }
-    res.json(user.name);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal error occurred");
   }
-});
+);
 
-const sendVerificationEmail = async (userEmail, token) => {
+const sendVerificationEmail = async (userEmail: string, token: string) => {
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -53,7 +57,6 @@ const sendVerificationEmail = async (userEmail, token) => {
           </body>
         </html>
       `,
-      contentType: "text/html",
     });
     if (!userEmail) {
       return console.log({ message: "User not found" });
@@ -69,7 +72,7 @@ router.post(
     body("email", "Enter a valid email").isEmail(),
     body("password", "Enter at least 5 characters").isLength({ min: 5 }),
   ],
-  async (req, res) => {
+  async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -94,10 +97,15 @@ router.post(
           email: req.body.email,
         },
       };
+      if (!secretKey) {
+        return res
+          .status(404)
+          .json({ message: "SECRET_KEY environment variable not defined" });
+      }
       const token = jwt.sign(payload, secretKey);
       await sendVerificationEmail(req.body.email, token);
 
-      res.json({ token });
+      res.json({ message: "Signup succesfully. Go verify your email" });
     } catch (error) {
       console.log(error);
       res.status(500).send("Internal error occured");
@@ -110,7 +118,7 @@ router.post(
     body("email", "Enter a valid email").isEmail(),
     body("password", "Enter at least 5 characters").exists(),
   ],
-  async (req, res) => {
+  async (req: Request, res: Response) => {
     const errors = validationResult(req);
     const { email, password } = req.body;
     if (!errors.isEmpty()) {
@@ -132,6 +140,11 @@ router.post(
             userId: user.id,
           },
         };
+        if (!secretKey) {
+          return res
+            .status(404)
+            .json({ message: "SECRET_KEY environment variable not defined" });
+        }
         const token = jwt.sign(payload, secretKey);
         res.json({ token });
       }
@@ -141,10 +154,16 @@ router.post(
     }
   }
 );
-router.get("/verify/:token", async (req, res) => {
+router.get("/verify/:token", async (req: Request, res: Response) => {
   try {
     const token = req.params.token;
-    const data = jwt.verify(token, process.env.SECRET_KEY);
+    const secretKey = process.env.SECRET_KEY;
+    if (!secretKey) {
+      return res
+        .status(404)
+        .json({ message: "SECRET_KEY environment variable not defined" });
+    }
+    const data = jwt.verify(token, secretKey) as JwtPayload;
     let user = data.user;
 
     if (!user) {
@@ -158,6 +177,9 @@ router.get("/verify/:token", async (req, res) => {
       { new: true }
     );
     const LINK = process.env.REDIRECT_LINK;
+    if (!LINK) {
+      return res.redirect("/");
+    }
     res.redirect(LINK);
   } catch (error) {
     console.error(error);

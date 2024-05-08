@@ -1,0 +1,5 @@
+{
+  "watch": ["fetchUser.ts", "./routes/auth.ts", "./routes/task.ts", "models"],
+  "script": "index.ts",
+  "ignore": ["node_modules/**/*"]
+}

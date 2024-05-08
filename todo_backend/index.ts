@@ -1,22 +1,28 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+
 require("dotenv").config();
 const app = express();
 
 app.use(cors());
-//send to local host db
-const mongoURI = process.env.DATABASE_URL;
 
-const connectToMongo = () => {
-  mongoose
-    .connect(mongoURI)
-    .then(() => console.log("Connected to Mongo succesfully"));
-};
-connectToMongo();
+//send to local host db
+if (process.env.DATABASE_URL) {
+  const mongoURI: string = process.env.DATABASE_URL;
+  // Use mongoURI here
+  const connectToMongo = () => {
+    mongoose
+      .connect(mongoURI)
+      .then(() => console.log("Connected to Mongo succesfully"));
+  };
+  connectToMongo();
+} else {
+  throw new Error("DATABASE_URL environment variable is not set");
+}
 
 app.get("/", (req, res) => {
-  res.send("This is todo app");
+  res.send("This is a Todo app");
 });
 
 app.use(express.json());
