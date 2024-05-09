@@ -6,7 +6,7 @@ require("dotenv").config();
 const app = express();
 
 // app.use(cors());
-app.use(cors({ origin: "https://todo-by-rahul.netlify.app" }));
+app.use(cors({ origin: "*" }));
 
 //send to local host db
 if (process.env.DATABASE_URL) {
