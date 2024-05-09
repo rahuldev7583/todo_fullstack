@@ -1,6 +1,19 @@
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URI;
+interface ImportMetaEnv {
+  VITE_API_BASE_URI: string;
+}
+export const API_BASE_URL: ImportMetaEnv = import.meta.env.VITE_API_BASE_URI;
 
-export const API_ENDPOINTS = {
+export const API_ENDPOINTS: {
+  LOGIN: string;
+  SIGNUP: string;
+  VERIFY: string;
+  GET_USERNAME: string;
+  GET_TASKS: string;
+  GET_COMPLETED_TASK: string;
+  ADD_TASKS: string;
+  UPDATE_TASKS: string;
+  DELETE_TASKS: string;
+} = {
   LOGIN: `${API_BASE_URL}/auth/login`,
   SIGNUP: `${API_BASE_URL}/auth/signup`,
   VERIFY: `${API_BASE_URL}/auth/verify`,

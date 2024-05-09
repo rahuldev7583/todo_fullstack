@@ -1,10 +1,10 @@
 import { useState } from "react";
-
 import { useNavigate } from "react-router-dom";
-import AddTask from "./AddTask";
-import { API_ENDPOINTS } from "../../config";
-import Bottom from "./Bottom/Bottom";
-import Loading from "./Loading";
+import AddTask from "./AddTask.tsx";
+import { API_ENDPOINTS } from "../config.ts";
+import Bottom from "./Bottom/Bottom.tsx";
+import Loading from "./Loading.tsx";
+
 const Signup = () => {
   const navigate = useNavigate();
 
@@ -15,10 +15,17 @@ const Signup = () => {
   });
   const dataSend = { state: { name: signupData.name, status: "Signup" } };
 
-  const [signup, setSignup] = useState({ signupStatus: true, data: "" });
+  // const [signup, setSignup] = useState({ signupStatus: true, data: "" });
+  const [signup, setSignup] = useState<{
+    signupStatus: boolean;
+    data: string | { error: string };
+  }>({
+    signupStatus: true,
+    data: "",
+  });
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: any) {
     e.preventDefault();
     setLoading(true);
     const response = await fetch(API_ENDPOINTS.SIGNUP, {
@@ -41,21 +48,23 @@ const Signup = () => {
     }
   }
 
-  function handleChange(e) {
+  function handleChange(e: any) {
     const { name, value } = e.target;
     setSignupData({ ...signupData, [name]: value });
   }
   return (
     <>
-      <AddTask disable={true} />
+      <AddTask disable={true} onClick={() => null} />
 
-      {!signup.signupStatus && signup.data.error ? (
+      {!signup.signupStatus && typeof signup.data === "string" ? (
         <h1 className="text-[#526e6a] md:ml-[40%] ml-6 mt-16 text-base md:text-xl">
-          ***Email already registered***
+          {signup.data}
         </h1>
-      ) : !signup.signupStatus && signup.data.errors ? (
+      ) : !signup.signupStatus &&
+        typeof signup.data === "object" &&
+        signup.data.error ? (
         <h1 className="text-[#526e6a] md:ml-[40%] ml-6 mt-16 text-base md:text-xl">
-          ***Please enter a valid email***
+          {signup.data.error}
         </h1>
       ) : null}
       {loading && <Loading />}

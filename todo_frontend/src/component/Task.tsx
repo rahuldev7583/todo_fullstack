@@ -1,13 +1,28 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import AddTask from "./AddTask";
+import { useLocation } from "react-router-dom";
+import AddTask from "./AddTask.tsx";
 import { useEffect, useState } from "react";
-import { LogOut, Success, Button } from "./others";
-import { API_ENDPOINTS, month } from "../../config";
-import Bottom from "./Bottom/Bottom";
+import { LogOut, Success, Button } from "./others.tsx";
+import { API_ENDPOINTS, month } from "../config.ts";
+import Bottom from "./Bottom/Bottom.tsx";
+
+interface TaskProps {
+  loadTask: boolean;
+  setLoadTask: (value: boolean) => void;
+}
+
 const today = new Date();
 const year = today.getFullYear();
-let months = today.getMonth() + 1;
-let day = today.getDate();
+let months: string | number = today.getMonth() + 1;
+let day: string | number = today.getDate();
+
+interface Task {
+  _id: string;
+  title: string;
+  description: string;
+  date: string;
+  complete: boolean;
+  user: string;
+}
 
 if (months < 10) {
   months = `0${months}`;
@@ -18,24 +33,26 @@ if (day < 10) {
 
 const currentDate = `${year}-${months}-${day}`;
 
-export const Task = () => {
-  const navigate = useNavigate();
+export const Task: React.FC<TaskProps> = () => {
+  // const navigate = useNavigate();
   const [taskData, setTaskData] = useState({
     title: "",
     description: "",
     date: "",
   });
-  const [tasks, setTasks] = useState([]);
-  const [completedTask, setCompletedTask] = useState([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [completedTask, setCompletedTask] = useState<Task[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [loadTask, setLoadTask] = useState(false);
+  const [loadTask, setLoadTask] = useState<boolean>(false);
   const location = useLocation();
   const dataRec = location.state;
   const [success, setSuccess] = useState(true);
-  const [taskStatus, setTaskStatus] = useState({ complete: false });
+  const [taskStatus] = useState({ complete: false });
   const [username, setUsername] = useState("");
+
   setTimeout(() => setSuccess(false), 3000);
-  function handleChange(e) {
+
+  function handleChange(e: any) {
     const { name, value } = e.target;
     setTaskData({ ...taskData, [name]: value });
   }
@@ -47,7 +64,7 @@ export const Task = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: authToken,
+        token: authToken ? authToken : "",
       },
     });
     const data = await response.json();
@@ -62,7 +79,7 @@ export const Task = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: authToken,
+        token: authToken ? authToken : "",
       },
     });
     const data = await response.json();
@@ -79,7 +96,7 @@ export const Task = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: authToken,
+        token: authToken ? authToken : "",
       },
     });
     const data = await response.json();
@@ -90,13 +107,13 @@ export const Task = () => {
       setLoadTask(true);
     }
   }
-  async function addTask(e) {
+  async function addTask(e: any) {
     e.preventDefault();
     const response = await fetch(API_ENDPOINTS.ADD_TASKS, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: authToken,
+        token: authToken ? authToken : "",
       },
       body: JSON.stringify(taskData),
     });
@@ -117,13 +134,13 @@ export const Task = () => {
       fetchTask();
     }
   }
-  async function updateTask(id) {
+  async function updateTask(id: string) {
     const updatedTask = { ...taskStatus, complete: true };
     const response = await fetch(`${API_ENDPOINTS.UPDATE_TASKS}/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        token: authToken,
+        token: authToken ? authToken : "",
       },
       body: JSON.stringify(updatedTask),
     });
@@ -139,12 +156,12 @@ export const Task = () => {
     }
   }
 
-  async function deleteTask(id) {
+  async function deleteTask(id: string) {
     const response = await fetch(`${API_ENDPOINTS.DELETE_TASKS}/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        token: authToken,
+        token: authToken ? authToken : "",
       },
     });
     // const data = await response.json();
@@ -202,11 +219,10 @@ export const Task = () => {
           <textarea
             className="border border-slate-800 my-2 px-2 h-20 py-2 rounded-lg w-[90%] md:w-[35%]"
             onChange={handleChange}
-            type="text"
             name="description"
             placeholder=""
-            rows="3"
-            cols="18"
+            rows={3}
+            cols={18}
             minLength={8}
             maxLength={36}
             value={taskData.description}
@@ -256,10 +272,11 @@ export const Task = () => {
                   </h1>
                   <p className="ml-2">{task.description}</p>
                   <p className="ml-2">
-                    {month[task.date.slice(5, 7) - 1] +
+                    {month[parseInt(task.date.slice(5, 7)) - 1] +
                       " " +
-                      task.date.slice(8, 10)}
+                      parseInt(task.date.slice(8, 10))}
                   </p>
+
                   <Button deleteClicked={() => deleteTask(task._id)} />
                 </div>
               )
@@ -282,7 +299,7 @@ export const Task = () => {
                     <input
                       onClick={() => {}}
                       type="checkbox"
-                      checked="true"
+                      checked={true}
                       className="accent-[#01dabb] mt-4 w-6 h-6 ml-[-30px]"
                     />
                     <h1 className="  font-medium mt-[-40px] text-2xl ml-2">
@@ -290,10 +307,11 @@ export const Task = () => {
                     </h1>
                     <p className="ml-2">{task.description}</p>
                     <p className="ml-2">
-                      {month[task.date.slice(5, 7) - 1] +
+                      {month[parseInt(task.date.slice(5, 7)) - 1] +
                         " " +
-                        task.date.slice(8, 10)}
+                        parseInt(task.date.slice(8, 10))}
                     </p>
+
                     <Button deleteClicked={() => deleteTask(task._id)} />
                   </div>
                 )

@@ -44,7 +44,7 @@ const sendVerificationEmail = (userEmail, token) => __awaiter(void 0, void 0, vo
                 pass: process.env.PASSWORD,
             },
         });
-        const verificationLink = `https://todo-backend-rahul.vercel.app/api/auth/verify/${token}`;
+        const verificationLink = `${process.env.LINK}/auth/verify/${token}`;
         const info = yield transporter.sendMail({
             from: `Rahul Dev <${process.env.GMAIL}>`, // Sender's name and email
             to: userEmail, // Recipient's email address

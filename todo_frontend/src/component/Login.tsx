@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AddTask from "./AddTask";
-import { API_ENDPOINTS } from "../../config";
-import Bottom from "./Bottom/Bottom";
-import Loading from "./Loading";
+import AddTask from "./AddTask.tsx";
+import { API_ENDPOINTS } from "../config.ts";
+import Bottom from "./Bottom/Bottom.tsx";
+import Loading from "./Loading.tsx";
 
-export const Login = ({ setLoadTask }) => {
+export const Login = ({ setLoadTask }: { setLoadTask: any }) => {
   const navigate = useNavigate();
 
   const dataSend = { state: { name: "", status: "Login" } };
@@ -17,7 +17,7 @@ export const Login = ({ setLoadTask }) => {
   const [verify, setVerify] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: any) {
     e.preventDefault();
     setLoading(true);
     const response = await fetch(API_ENDPOINTS.LOGIN, {
@@ -52,14 +52,14 @@ export const Login = ({ setLoadTask }) => {
     }
   }
 
-  function handleChange(e) {
+  function handleChange(e: any) {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
   }
 
   return (
     <>
-      <AddTask disable={true} />
+      <AddTask disable={true} onClick={() => null} />
       <p className="text-[#01dabb] text-lg ml-20 mt-20 md:ml-[44.6%] font-semibold">
         Organize Your Life
       </p>

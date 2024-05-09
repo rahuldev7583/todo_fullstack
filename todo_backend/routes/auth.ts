@@ -35,7 +35,7 @@ const sendVerificationEmail = async (userEmail: string, token: string) => {
         pass: process.env.PASSWORD,
       },
     });
-    const verificationLink = `https://todo-backend-rahul.vercel.app/api/auth/verify/${token}`;
+    const verificationLink = `${process.env.LINK}/auth/verify/${token}`;
     const info = await transporter.sendMail({
       from: `Rahul Dev <${process.env.GMAIL}>`, // Sender's name and email
       to: userEmail, // Recipient's email address

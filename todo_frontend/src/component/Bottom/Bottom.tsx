@@ -3,7 +3,7 @@ import Twitter from "./twitter.png";
 import GitHub from "./github.png";
 import Medium from "./medium.png";
 
-function Bottom(props) {
+function Bottom(props: { bottom: string | boolean }) {
   let bottomStyle =
     "left-0 right-0 w-full text-slate-500 test-xl pt-2 text-center  bg-[#01dabb]";
   return (

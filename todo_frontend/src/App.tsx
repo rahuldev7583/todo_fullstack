@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Header from "./component/Header";
-import { Login } from "./component/Login";
-import Signup from "./component/Signup";
-import { Task } from "./component/Task";
+import Header from "./component/Header.tsx";
+import { Login } from "./component/Login.tsx";
+import Signup from "./component/Signup.tsx";
+import { Task } from "./component/Task.tsx";
+import Verify from "./component/Verify.tsx";
 
-import Verify from "./component/Verify";
+interface AppProps {}
 
-function App() {
-  const [loadTask, setLoadTask] = useState(false);
-  const updateLoadTask = (value) => {
+const App: React.FC<AppProps> = () => {
+  const [loadTask, setLoadTask] = useState<boolean>(false);
+  const updateLoadTask = (value: boolean) => {
     setLoadTask(value);
   };
+
   return (
     <div className="font-mono  h-screen">
       <BrowserRouter>
@@ -35,6 +37,6 @@ function App() {
       </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;

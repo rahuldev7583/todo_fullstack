@@ -1,5 +1,8 @@
 /* eslint-disable react/prop-types */
-export default function AddTask(props) {
+export default function AddTask(props: {
+  disable: boolean;
+  onClick: () => void;
+}) {
   return (
     <div className=" ">
       <button

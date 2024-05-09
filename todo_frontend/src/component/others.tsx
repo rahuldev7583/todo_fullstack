@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Delete from "./../assets/trash.png";
-function Button(props) {
+
+function Button(props: { deleteClicked: () => void }) {
   return (
     <div>
       <button
@@ -14,8 +15,8 @@ function Button(props) {
   );
 }
 
-function LogOut({ to, onClick, children }) {
-  const handleClick = (e) => {
+function LogOut({ to, onClick, children }: any) {
+  const handleClick = (e: any) => {
     if (onClick) {
       onClick(e);
     }
@@ -31,7 +32,7 @@ function LogOut({ to, onClick, children }) {
     </Link>
   );
 }
-function Success(props) {
+function Success(props: { message: string }) {
   return (
     <p className="text-slate-700 text-lg absolute top-40 md:top-24 left-10 md:left-16">
       Successfully {props.message}
