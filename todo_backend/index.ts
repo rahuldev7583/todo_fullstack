@@ -5,7 +5,7 @@ import cors from "cors";
 require("dotenv").config();
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: process.env.REDIRECT_LINK }));
 
 //send to local host db
 if (process.env.DATABASE_URL) {
