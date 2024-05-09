@@ -5,7 +5,7 @@ import cors from "cors";
 require("dotenv").config();
 const app = express();
 
-app.use(cors({ origin: process.env.REDIRECT_LINK }));
+app.use(cors());
 
 //send to local host db
 if (process.env.DATABASE_URL) {
@@ -26,10 +26,10 @@ app.get("/", (req, res) => {
 });
 
 app.use(express.json());
-app.use((req, res, next) => {
-  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+//   next();
+// });
 
 //Available routes
 app.use("/api/auth", require("./routes/auth"));
