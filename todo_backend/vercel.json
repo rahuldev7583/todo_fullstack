@@ -3,9 +3,8 @@
   "name": "todo_backend",
   "builds": [
     {
-      "src": "dist/index.js",
-      "use": "@vercel/node",
-      "config": { "includeFiles": ["dist/**"] }
+      "src": "index.ts",
+      "use": "@vercel/node"
     }
   ],
   "routes": [{ "src": "/(.*)", "dest": "/index.js" }]
