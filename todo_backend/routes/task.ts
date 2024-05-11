@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
-import fetchuser, { AuthenticatedRequest } from "../fetchUser";
+import fetchuser, { AuthenticatedRequest } from "../middleware/fetchUser";
 import Task from "../models/Task";
 
 const router = express.Router();

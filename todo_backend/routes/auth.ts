@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import User from "../models/User";
-import fetchuser, { AuthenticatedRequest } from "../fetchUser";
+import fetchuser, { AuthenticatedRequest } from "../middleware/fetchUser";
 
 const router = express.Router();
 
