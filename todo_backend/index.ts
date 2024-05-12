@@ -1,11 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 
 require("dotenv").config();
 const app = express();
 
-// app.use(cors());
-// app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors());
 
 //send to local host db
 if (process.env.DATABASE_URL) {
@@ -26,11 +26,7 @@ app.get("/", (req, res) => {
 });
 
 app.use(express.json());
-// app.use((req, res, next) => {
-//   res.setHeader("Referrer-Policy", "'no-referrer'");
-//   next();
-// });
-// s
+
 //Available routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/tasks", require("./routes/task"));
